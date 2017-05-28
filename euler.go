@@ -9,50 +9,25 @@ package odeint
 // Euler implements the Euler stepper method. Euler is part of the Stepper
 // interface.
 type Euler struct {
-	stepSize    Float
-	stateVector []Float
-	ODESystem   System
-	//ParametersVector []Float
-	//ODESystem        System
+	stepSize Float
+	system   System
 }
 
-// NewEuler returns a new Euler stepper method.
-func NewEuler(stepSize Float, stateVector []Float, oDESystem System) (r *Euler) {
-	//func NewEuler(stepSize Float, stateVector []Float, parametersVector []Float, oDESystem System) (r *Euler) {
+// NewEuler returns a reference to a new Euler stepper method.
+func NewEuler(stepSize Float, system System) (r *Euler) {
 	if stepSize <= 0 {
 		panic("NewEuler called with negative or null stepSize.")
 	}
-	if oDESystem.Function == nil {
-		panic("NewEuler called with nil ODESystem.")
+	if system.Function == nil {
+		panic("NewEuler called with nil system.Function.")
 	}
-	//r = &Euler{stepSize: stepSize, stateVector: stateVector, ParametersVector: parametersVector, ODESystem: oDESystem}
-	r = &Euler{stepSize: stepSize, stateVector: stateVector, ODESystem: oDESystem}
+	r = &Euler{stepSize: stepSize, system: system}
 	return
 }
 
-// Set sets the state for the Euler stepper.
-func (euler *Euler) Set(stepSize Float, stateVector []Float, oDESystem System) error {
-	//func (euler *Euler) Set(stepSize Float, stateVector []Float, parametersVector []Float, oDESystem System) error {
-	if stepSize <= 0 {
-		return &Error{"Can't use negative step size for Euler stepper."}
-	} else {
-		euler.stepSize = stepSize
-		euler.stateVector = stateVector
-		//euler.ParametersVector = parametersVector
-		euler.ODESystem = oDESystem
-		return nil
-	}
-}
+// These methods are required by the interface Stepper
 
-func (euler *Euler) StepSize() Float {
-	return euler.stepSize
-}
-
-// SetState sets the state for the Euler stepper.
-func (euler *Euler) SetState(state []Float) error {
-	euler.stateVector = state
-	return nil
-}
+// Setter methods
 
 // SetStep sets the state for the Euler stepper.
 func (euler *Euler) SetStep(step Float) error {
@@ -60,23 +35,46 @@ func (euler *Euler) SetStep(step Float) error {
 	return nil
 }
 
+// SetState sets the state for the Euler stepper.
+func (euler *Euler) SetState(state []Float) error {
+	euler.system.stateVector = state
+	return nil
+}
+
+// Set sets the step size and System for the Euler stepper.
+func (euler *Euler) Set(stepSize Float, system System) error {
+	if stepSize <= 0 {
+		return &Error{"Can't use negative or null step size for Euler stepper."}
+	} else {
+		euler.stepSize = stepSize
+		euler.system = system
+		return nil
+	}
+}
+
+// Getter methods
+
+// StepSize returns the step size of the method
+func (euler *Euler) StepSize() Float {
+	return euler.stepSize
+}
+
 // State returns the state of the Euler stepper.
 func (euler *Euler) State() []Float {
-	return euler.stateVector
+	return euler.system.stateVector
 }
 
 // Step performs one step iteration call of the Euler stepper.
 // It also updates the state of the Euler object.
 func (euler *Euler) Step() ([]Float, error) {
 
-	newstate := make([]Float, len(euler.stateVector))
+	newstate := make([]Float, len(euler.system.stateVector))
 
-	for i := 0; i < len(euler.stateVector); i++ {
-		//newstate[i] = euler.stateVector[i] + euler.stepSize*euler.ODESystem(euler.stateVector, euler.ParametersVector)[i]
-		newstate[i] = euler.stateVector[i] + euler.stepSize*euler.ODESystem.Evaluate(euler.stateVector)[i]
+	for i := 0; i < len(euler.system.stateVector); i++ {
+		newstate[i] = euler.system.stateVector[i] + euler.stepSize*euler.system.Evaluate(euler.system.stateVector)[i]
 	}
 
-	euler.stateVector = newstate
+	euler.system.stateVector = newstate
 
 	return newstate, nil
 }

@@ -5,7 +5,7 @@
 package odeint
 
 // Float wraps around float64 or any float representation we want. This is
-// introduced to provide a mean to change the floating point precision
+// introduced to provide means to change the floating point precision
 // by changing this line
 type Float float64
 

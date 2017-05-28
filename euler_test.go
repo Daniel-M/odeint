@@ -3,26 +3,26 @@ package odeint
 //import "fmt"
 import "testing"
 
-func odesys(x []Float, parameters []Float) []Float {
-
-	dxdt := make([]Float, len(x))
-
-	dxdt[0] = parameters[0] * x[1]
-	dxdt[1] = parameters[1] * x[0]
-
-	return dxdt
-}
-
 func TestNewEuler(t *testing.T) {
 	//t.Log("Testing NewEuler()...")
 
 	var step Float = 0.01
 
+	// Temporary variables
 	vector := make([]Float, 2)
+	params := make([]Float, 2)
+
+	// State vector
 	vector[0] = 1.0
 	vector[1] = 2.0
 
-	sys := NewSystem(vector, func(x []Float, parameters []Float) []Float {
+	// Parameters vector
+	params[0] = vector[0]
+	params[1] = vector[1]
+
+	// Get a NewSystem. Previous test checks that
+	// NewSystem works properly
+	sys := NewSystem(vector, params, func(x []Float, parameters []Float) []Float {
 
 		dxdt := make([]Float, len(x))
 
@@ -32,7 +32,7 @@ func TestNewEuler(t *testing.T) {
 		return dxdt
 	})
 
-	eu := NewEuler(step, vector, *sys)
+	eu := NewEuler(step, *sys)
 	if eu.State()[0] != vector[0] && eu.State()[1] != vector[1] {
 		t.Errorf("NewEuler() has wrong state...")
 		t.Errorf("NewEuler() expected state [%f, %f]", vector[0], vector[1])
@@ -49,11 +49,21 @@ func TestEulerSet(t *testing.T) {
 	//t.Log("Testing Euler.Set()...")
 	var step Float = 0.01
 
+	// Temporary variables
 	vector := make([]Float, 2)
+	params := make([]Float, 2)
+
+	// State vector
 	vector[0] = 1.0
 	vector[1] = 2.0
 
-	sys := NewSystem(vector, func(x []Float, parameters []Float) []Float {
+	// Parameters vector
+	params[0] = vector[0]
+	params[1] = vector[1]
+
+	// Get a NewSystem. Previous test checks that
+	// NewSystem works properly
+	sys := NewSystem(vector, params, func(x []Float, parameters []Float) []Float {
 
 		dxdt := make([]Float, len(x))
 
@@ -65,7 +75,7 @@ func TestEulerSet(t *testing.T) {
 
 	var eu Euler
 
-	if eu.Set(step, vector, *sys) != nil {
+	if eu.Set(step, *sys) != nil {
 		//t.Fail()
 		t.Errorf("Euler.Set() not returned nil. Return value ")
 	}
@@ -80,23 +90,26 @@ func TestEulerStep(t *testing.T) {
 	// A step for the simulation
 	var step Float = 0.01
 
+	// Temporary variables
 	vector := make([]Float, 2)
-	expected := make([]Float, 2)
 	params := make([]Float, 2)
+	expected := make([]Float, 2)
 
-	// Seed initial values to call odesys
+	// State vector
 	vector[0] = 1.0
-	vector[1] = 1.0
+	vector[1] = 2.0
 
-	// Parameters
-	params[0] = 1.0
-	params[1] = 0.0
+	// Parameters vector
+	params[0] = vector[0]
+	params[1] = vector[1]
 
-	// This is what expect in the first simulation
+	// This is what we expect in the first step of the simulation
 	expected[0] = vector[0] + 0.01*params[0]*vector[1]
 	expected[1] = vector[1] + 0.01*params[1]*vector[0]
 
-	sys := NewSystem(params, func(x []Float, parameters []Float) []Float {
+	// Get a NewSystem. Previous test checks that
+	// NewSystem works properly
+	sys := NewSystem(vector, params, func(x []Float, parameters []Float) []Float {
 
 		dxdt := make([]Float, len(x))
 
@@ -109,7 +122,7 @@ func TestEulerStep(t *testing.T) {
 	var eu Euler
 
 	//if eu.Set(step, vector, params, odesys) != nil {
-	if eu.Set(step, vector, *sys) != nil {
+	if eu.Set(step, *sys) != nil {
 		//t.Fail()
 		t.Errorf("Euler.Set() did not returned nil...")
 	}

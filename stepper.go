@@ -7,7 +7,13 @@ package odeint
 // Stepper defines the functions that any Ordinary Differential Equation
 // Integrator Stepper should implement.
 type Stepper interface {
+	// Setter methods
+	SetStep(step Float) error
 	SetState(state []Float) error
+	Set(stepSize Float, system System) error
+
+	// Getter methods
+	StepSize() Float
 	State() []Float
 	Step() ([]Float, error)
 }
