@@ -16,3 +16,7 @@ type Error struct {
 func (e *Error) Error() string {
 	return fmt.Sprintf("ERROR: %s", e.errorString)
 }
+
+//func New(text string) error {
+//return &Error{text}
+//}
