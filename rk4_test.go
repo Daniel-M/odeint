@@ -1,6 +1,6 @@
 package odeint
 
-//import "fmt"
+import "fmt"
 import "testing"
 
 func TestNewRk4(t *testing.T) {
@@ -96,12 +96,12 @@ func TestRk4Step(t *testing.T) {
 	expected := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
-	params[0] = vector[0]
-	params[1] = vector[1]
+	params[0] = vector[1]
+	params[1] = vector[0]
 
 	// This is what we expect in the first step of the simulation
 
@@ -165,7 +165,10 @@ func TestRk4Step(t *testing.T) {
 
 	//t.Log("Now testing Rk4.Step()...")
 
+	fmt.Println(vector, stateK1, stateK2, stateK3, stateK4, expected)
+
 	state, err := rk4u.Step()
+	fmt.Println(state)
 
 	if err != nil {
 		t.Errorf("Rk4.Step() did not returned nil...")
