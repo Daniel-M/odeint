@@ -13,8 +13,8 @@ func TestNewEuler(t *testing.T) {
 	params := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
 	params[0] = vector[0]
@@ -54,8 +54,8 @@ func TestEulerSet(t *testing.T) {
 	params := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
 	params[0] = vector[0]
@@ -96,8 +96,8 @@ func TestEulerStep(t *testing.T) {
 	expected := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
 	params[0] = vector[0]

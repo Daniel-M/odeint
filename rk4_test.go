@@ -1,6 +1,6 @@
 package odeint
 
-import "fmt"
+//import "fmt"
 import "testing"
 
 func TestNewRk4(t *testing.T) {
@@ -13,8 +13,8 @@ func TestNewRk4(t *testing.T) {
 	params := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
 	params[0] = vector[0]
@@ -42,7 +42,6 @@ func TestNewRk4(t *testing.T) {
 		t.Errorf("NewRk4() expected step %f", step)
 		t.Errorf("NewRk4() got step %f", rk4u.StepSize())
 	}
-
 }
 
 func TestRk4Set(t *testing.T) {
@@ -54,8 +53,8 @@ func TestRk4Set(t *testing.T) {
 	params := make([]Float, 2)
 
 	// State vector
-	vector[0] = 1.0
-	vector[1] = 2.0
+	vector[0] = 2.0
+	vector[1] = 3.0
 
 	// Parameters vector
 	params[0] = vector[0]
@@ -79,9 +78,6 @@ func TestRk4Set(t *testing.T) {
 		//t.Fail()
 		t.Errorf("Rk4.Set() not returned nil. Return value ")
 	}
-
-	//rk4u := NewRk4(step, vector, params, odesys)
-
 }
 
 func TestRk4Step(t *testing.T) {
@@ -157,7 +153,6 @@ func TestRk4Step(t *testing.T) {
 
 	var rk4u Rk4
 
-	//if rk4u.Set(step, vector, params, odesys) != nil {
 	if rk4u.Set(step, *sys) != nil {
 		//t.Fail()
 		t.Errorf("Rk4.Set() did not returned nil...")
@@ -165,10 +160,10 @@ func TestRk4Step(t *testing.T) {
 
 	//t.Log("Now testing Rk4.Step()...")
 
-	fmt.Println(vector, stateK1, stateK2, stateK3, stateK4, expected)
+	//fmt.Println(vector, stateK1, stateK2, stateK3, stateK4, expected)
 
 	state, err := rk4u.Step()
-	fmt.Println(state)
+	//fmt.Println(state)
 
 	if err != nil {
 		t.Errorf("Rk4.Step() did not returned nil...")
