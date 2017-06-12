@@ -3,8 +3,8 @@ package odeint
 //import "fmt"
 import "testing"
 
-func TestNewRk4(t *testing.T) {
-	//t.Log("Testing NewRk4()...")
+func TestNewSTEPPER_METHOD(t *testing.T) {
+	//t.Log("Testing NewSTEPPER_METHOD()...")
 
 	var step Float = 0.01
 
@@ -32,20 +32,20 @@ func TestNewRk4(t *testing.T) {
 		return dxdt
 	})
 
-	rk4u := NewRk4(step, *sys)
-	if rk4u.State()[0] != vector[0] && rk4u.State()[1] != vector[1] {
-		t.Errorf("NewRk4() has wrong state...")
-		t.Errorf("NewRk4() expected state [%f, %f]", vector[0], vector[1])
-		t.Errorf("NewRk4() got state [%f, %f]", rk4u.State()[0], rk4u.State()[1])
-	} else if step != rk4u.StepSize() {
-		t.Errorf("NewRk4() has wrong step...")
-		t.Errorf("NewRk4() expected step %f", step)
-		t.Errorf("NewRk4() got step %f", rk4u.StepSize())
+	stepper_method := NewSTEPPER_METHOD(step, *sys)
+	if stepper_method.State()[0] != vector[0] && stepper_method.State()[1] != vector[1] {
+		t.Errorf("NewSTEPPER_METHOD() has wrong state...")
+		t.Errorf("NewSTEPPER_METHOD() expected state [%f, %f]", vector[0], vector[1])
+		t.Errorf("NewSTEPPER_METHOD() got state [%f, %f]", stepper_method.State()[0], stepper_method.State()[1])
+	} else if step != stepper_method.StepSize() {
+		t.Errorf("NewSTEPPER_METHOD() has wrong step...")
+		t.Errorf("NewSTEPPER_METHOD() expected step %f", step)
+		t.Errorf("NewSTEPPER_METHOD() got step %f", stepper_method.StepSize())
 	}
 }
 
-func TestRk4Set(t *testing.T) {
-	//t.Log("Testing Rk4.Set()...")
+func TestSTEPPER_METHODSet(t *testing.T) {
+	//t.Log("Testing STEPPER_METHOD.Set()...")
 	var step Float = 0.01
 
 	// Temporary variables
@@ -72,16 +72,16 @@ func TestRk4Set(t *testing.T) {
 		return dxdt
 	})
 
-	var rk4u Rk4
+	var stepper_method STEPPER_METHOD
 
-	if rk4u.Set(step, *sys) != nil {
+	if stepper_method.Set(step, *sys) != nil {
 		//t.Fail()
-		t.Errorf("Rk4.Set() not returned nil. Return value ")
+		t.Errorf("STEPPER_METHOD.Set() not returned nil. Return value ")
 	}
 }
 
-func TestRk4Step(t *testing.T) {
-	//t.Log("Testing Rk4.Set()...")
+func TestSTEPPER_METHODStep(t *testing.T) {
+	//t.Log("Testing STEPPER_METHOD.Set()...")
 
 	// A step for the simulation
 	var step Float = 0.01
@@ -151,24 +151,24 @@ func TestRk4Step(t *testing.T) {
 		return dxdt
 	})
 
-	var rk4u Rk4
+	var stepper_method STEPPER_METHOD
 
-	if rk4u.Set(step, *sys) != nil {
+	if stepper_method.Set(step, *sys) != nil {
 		//t.Fail()
-		t.Errorf("Rk4.Set() did not returned nil...")
+		t.Errorf("STEPPER_METHOD.Set() did not returned nil...")
 	}
 
-	//t.Log("Now testing Rk4.Step()...")
+	//t.Log("Now testing STEPPER_METHOD.Step()...")
 
 	//fmt.Println(vector, stateK1, stateK2, stateK3, stateK4, expected)
 
-	state, err := rk4u.Step()
+	state, err := stepper_method.Step()
 	//fmt.Println(state)
 
 	if err != nil {
-		t.Errorf("Rk4.Step() did not returned nil...")
+		t.Errorf("STEPPER_METHOD.Step() did not returned nil...")
 	} else if state[0] != expected[0] && state[1] != expected[1] {
-		t.Errorf("Rk4.Step() expected %f, got %f", expected[0], state[0])
-		t.Errorf("Rk4.Step() expected %f, got %f", expected[1], state[1])
+		t.Errorf("STEPPER_METHOD.Step() expected %f, got %f", expected[0], state[0])
+		t.Errorf("STEPPER_METHOD.Step() expected %f, got %f", expected[1], state[1])
 	}
 }

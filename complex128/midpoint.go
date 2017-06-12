@@ -9,12 +9,12 @@ package odeint
 // Midpoint implements the Midpoint stepper method. Midpoint is part of the Stepper
 // interface.
 type Midpoint struct {
-	stepSize complex64
+	stepSize complex128
 	system   System
 }
 
 // NewMidpoint returns a reference to a new Midpoint stepper method.
-func NewMidpoint(stepSize complex64, system System) (r *Midpoint) {
+func NewMidpoint(stepSize complex128, system System) (r *Midpoint) {
 	//if stepSize <= 0 {
 	if real(stepSize) <= 0 && imag(stepSize) <= 0.0 {
 		panic("NewMidpoint called with negative or null stepSize.")
@@ -31,19 +31,19 @@ func NewMidpoint(stepSize complex64, system System) (r *Midpoint) {
 // Setter methods
 
 // SetStep sets the state for the Midpoint stepper.
-func (midpoint *Midpoint) SetStep(step complex64) error {
+func (midpoint *Midpoint) SetStep(step complex128) error {
 	midpoint.stepSize = step
 	return nil
 }
 
 // SetState sets the state for the Midpoint stepper.
-func (midpoint *Midpoint) SetState(state []complex64) error {
+func (midpoint *Midpoint) SetState(state []complex128) error {
 	midpoint.system.stateVector = state
 	return nil
 }
 
 // Set sets the step size and System for the Midpoint stepper.
-func (midpoint *Midpoint) Set(stepSize complex64, system System) error {
+func (midpoint *Midpoint) Set(stepSize complex128, system System) error {
 	//if stepSize <= 0 {
 	if real(stepSize) <= 0 && imag(stepSize) <= 0.0 {
 		return &Error{"Can't use negative or null step size for Midpoint stepper."}
@@ -57,12 +57,12 @@ func (midpoint *Midpoint) Set(stepSize complex64, system System) error {
 // Getter methods
 
 // StepSize returns the step size of the method
-func (midpoint *Midpoint) StepSize() complex64 {
+func (midpoint *Midpoint) StepSize() complex128 {
 	return midpoint.stepSize
 }
 
 // State returns the state of the Midpoint stepper.
-func (midpoint *Midpoint) State() []complex64 {
+func (midpoint *Midpoint) State() []complex128 {
 	return midpoint.system.stateVector
 }
 
@@ -74,9 +74,9 @@ func (midpoint *Midpoint) State() []complex64 {
 // 		t_n+1 = t_n + dt
 // 		ya_n = y_n + 0.5*dt*f(y_n,t) // First step
 //		y_n+1 = y_n + dt*f(ya_n,t)   // Second step
-func (midpoint *Midpoint) Step() ([]complex64, error) {
+func (midpoint *Midpoint) Step() ([]complex128, error) {
 
-	stateK1 := make([]complex64, len(midpoint.system.stateVector))
+	stateK1 := make([]complex128, len(midpoint.system.stateVector))
 
 	// First Step
 	stateK1 = midpoint.system.Evaluate(midpoint.system.stateVector)

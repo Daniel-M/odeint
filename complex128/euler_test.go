@@ -6,11 +6,11 @@ import "testing"
 func TestNewEuler(t *testing.T) {
 	//t.Log("Testing NewEuler()...")
 
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -22,9 +22,9 @@ func TestNewEuler(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]
@@ -47,11 +47,11 @@ func TestNewEuler(t *testing.T) {
 
 func TestEulerSet(t *testing.T) {
 	//t.Log("Testing Euler.Set()...")
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -63,9 +63,9 @@ func TestEulerSet(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]
@@ -88,12 +88,12 @@ func TestEulerStep(t *testing.T) {
 	//t.Log("Testing Euler.Set()...")
 
 	// A step for the simulation
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
-	expected := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
+	expected := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -109,9 +109,9 @@ func TestEulerStep(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]

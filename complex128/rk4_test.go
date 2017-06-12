@@ -6,11 +6,11 @@ import "testing"
 func TestNewRk4(t *testing.T) {
 	//t.Log("Testing NewRk4()...")
 
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -22,9 +22,9 @@ func TestNewRk4(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]
@@ -46,11 +46,11 @@ func TestNewRk4(t *testing.T) {
 
 func TestRk4Set(t *testing.T) {
 	//t.Log("Testing Rk4.Set()...")
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -62,9 +62,9 @@ func TestRk4Set(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]
@@ -84,12 +84,12 @@ func TestRk4Step(t *testing.T) {
 	//t.Log("Testing Rk4.Set()...")
 
 	// A step for the simulation
-	var step complex64 = 0.01
+	var step complex128 = 0.01
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
-	expected := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
+	expected := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 2.0 + 1i
@@ -101,14 +101,14 @@ func TestRk4Step(t *testing.T) {
 
 	// This is what we expect in the first step of the simulation
 
-	stateK1 := make([]complex64, len(vector))
-	stateK2 := make([]complex64, len(vector))
-	stateK3 := make([]complex64, len(vector))
-	stateK4 := make([]complex64, len(vector))
+	stateK1 := make([]complex128, len(vector))
+	stateK2 := make([]complex128, len(vector))
+	stateK3 := make([]complex128, len(vector))
+	stateK4 := make([]complex128, len(vector))
 
-	BufferK1 := make([]complex64, len(vector))
-	BufferK2 := make([]complex64, len(vector))
-	BufferK3 := make([]complex64, len(vector))
+	BufferK1 := make([]complex128, len(vector))
+	BufferK2 := make([]complex128, len(vector))
+	BufferK3 := make([]complex128, len(vector))
 
 	// First Step
 	stateK1[0] = params[0] * vector[1]
@@ -141,9 +141,9 @@ func TestRk4Step(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]

@@ -8,12 +8,12 @@ package odeint
 // Integrator Stepper should implement.
 type Stepper interface {
 	// Setter methods
-	SetStep(step complex64) error
-	SetState(state []complex64) error
-	Set(stepSize complex64, system System) error
+	SetStep(step complex128) error
+	SetState(state []complex128) error
+	Set(stepSize complex128, system System) error
 
 	// Getter methods
-	StepSize() complex64
-	State() []complex64
-	Step() ([]complex64, error)
+	StepSize() complex128
+	State() []complex128
+	Step() ([]complex128, error)
 }

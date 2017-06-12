@@ -12,16 +12,16 @@ package odeint
 // stateVector is the present state of the system, i.e. the values stored
 // at the components of x.
 // parametersVector are the parameters of to the system (i.e. the t in f(x,t))
-// function describes the func(state []complex64, parameters []complex64) []complex64
+// function describes the func(state []complex128, parameters []complex128) []complex128
 // that represents the right hand side of system (1)
 type System struct {
-	stateVector      []complex64
-	parametersVector []complex64
-	function         func(state []complex64, parameters []complex64) []complex64
+	stateVector      []complex128
+	parametersVector []complex128
+	function         func(state []complex128, parameters []complex128) []complex128
 }
 
 // NewSystem returns a reference to a new System object with the properties given
-func NewSystem(state []complex64, parameters []complex64, system func(state []complex64, parameters []complex64) []complex64) (s *System) {
+func NewSystem(state []complex128, parameters []complex128, system func(state []complex128, parameters []complex128) []complex128) (s *System) {
 	if system != nil {
 		s = &System{stateVector: state, parametersVector: parameters, function: system}
 	} else {
@@ -32,7 +32,7 @@ func NewSystem(state []complex64, parameters []complex64, system func(state []co
 
 // Evaluate returns the result of evaluating f(x,t) with x = state.
 // if the size of state is zero, it returns f(x,t) using the internal state x
-func (s *System) Evaluate(state []complex64) []complex64 {
+func (s *System) Evaluate(state []complex128) []complex128 {
 	if len(state) > 0 {
 		return s.function(state, s.parametersVector)
 	} else {
@@ -41,16 +41,16 @@ func (s *System) Evaluate(state []complex64) []complex64 {
 }
 
 // State returns the internal state vector of the System
-func (s *System) State() []complex64 {
+func (s *System) State() []complex128 {
 	return s.stateVector
 }
 
 // Parameters returns the internal parameters vector of the System
-func (s *System) Parameters() []complex64 {
+func (s *System) Parameters() []complex128 {
 	return s.parametersVector
 }
 
 // State returns the internal function of the System
-func (s *System) Function() func(state []complex64, parameters []complex64) []complex64 {
+func (s *System) Function() func(state []complex128, parameters []complex128) []complex128 {
 	return s.function
 }

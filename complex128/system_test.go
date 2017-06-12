@@ -7,8 +7,8 @@ func TestNewSystem(t *testing.T) {
 	//t.Log("Testing NewSystem()...")
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 1.0
@@ -19,9 +19,9 @@ func TestNewSystem(t *testing.T) {
 	params[1] = vector[1] + 1i
 
 	// Temporary function to assign to the system
-	f := func(x []complex64, parameters []complex64) []complex64 {
+	f := func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]
@@ -51,8 +51,8 @@ func TestSystemEvaluate(t *testing.T) {
 	//t.Log("Testing System.Evaluate()...")
 
 	// Temporary variables
-	vector := make([]complex64, 2)
-	params := make([]complex64, 2)
+	vector := make([]complex128, 2)
+	params := make([]complex128, 2)
 
 	// State vector
 	vector[0] = 1.0
@@ -64,9 +64,9 @@ func TestSystemEvaluate(t *testing.T) {
 
 	// Get a NewSystem. Previous test checks that
 	// NewSystem works properly
-	sys := NewSystem(vector, params, func(x []complex64, parameters []complex64) []complex64 {
+	sys := NewSystem(vector, params, func(x []complex128, parameters []complex128) []complex128 {
 
-		dxdt := make([]complex64, len(x))
+		dxdt := make([]complex128, len(x))
 
 		dxdt[0] = parameters[0] * x[1]
 		dxdt[1] = parameters[1] * x[0]

@@ -2,14 +2,11 @@ package main
 
 import "fmt"
 
-import "github.com/Daniel-M/odeint"
+import "github.com/Daniel-M/odeint/float64"
 
-// Renaming the type just for short code writting
-//type odeint.Float odeint.odeint.Float
+func odesys(x []float64, parameters []float64) []float64 {
 
-func odesys(x []odeint.Float, parameters []odeint.Float) []odeint.Float {
-
-	dxdt := make([]odeint.Float, len(x))
+	dxdt := make([]float64, len(x))
 
 	dxdt[0] = parameters[0] + x[0]*x[0]*x[1] - (parameters[1]+1)*x[0]
 	dxdt[1] = (parameters[1] - x[0]*x[1]) * x[0]
@@ -19,8 +16,8 @@ func odesys(x []odeint.Float, parameters []odeint.Float) []odeint.Float {
 
 func main() {
 
-	state := make([]odeint.Float, 2)
-	params := make([]odeint.Float, 2)
+	state := make([]float64, 2)
+	params := make([]float64, 2)
 
 	// State vector
 	state[0] = 1.0
@@ -42,7 +39,7 @@ func main() {
 	}
 
 	for i := 0; i < int(30.0/integrator.StepSize()); i++ {
-		fmt.Println(odeint.Float(i)*integrator.StepSize(), state)
+		fmt.Println(float64(i)*integrator.StepSize(), state)
 
 		state, err = integrator.Step()
 		if err != nil {

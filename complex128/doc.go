@@ -6,14 +6,14 @@
    Package odeint implements Ordinary Differential Equations integrators.
    this documentation is under development, expect updates.
 
-   complex64 type wrapper
+   complex128 type wrapper
 
-   complex64 provides a wrapper for floating point precision numbers. the default
+   complex128 provides a wrapper for floating point precision numbers. the default
    is
-       type complex64 complex64
+       type complex128 complex128
    but can be changed to provide support for other numeric types like
-       complex64
-       complex64
+       complex128
+       complex128
        complex128
    to give support to any valid go numeric type from the standard library:
    https://golang.org/pkg/go/types/#pkg-variables

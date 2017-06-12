@@ -9,12 +9,12 @@ package odeint
 // Rk4 implements the rk4 stepper method. rk4 is part of the Stepper
 // interface.
 type Rk4 struct {
-	stepSize complex64
+	stepSize complex128
 	system   System
 }
 
 // NewRk4 returns a reference to a new rk4 stepper method.
-func NewRk4(stepSize complex64, system System) (r *Rk4) {
+func NewRk4(stepSize complex128, system System) (r *Rk4) {
 	//if stepSize <= 0 {
 	if real(stepSize) <= 0 && imag(stepSize) <= 0.0 {
 		panic("NewRk4 called with negative or null stepSize.")
@@ -31,19 +31,19 @@ func NewRk4(stepSize complex64, system System) (r *Rk4) {
 // Setter methods
 
 // SetStep sets the state for the Rk4 stepper.
-func (rk4 *Rk4) SetStep(step complex64) error {
+func (rk4 *Rk4) SetStep(step complex128) error {
 	rk4.stepSize = step
 	return nil
 }
 
 // SetState sets the state for the Rk4 stepper.
-func (rk4 *Rk4) SetState(state []complex64) error {
+func (rk4 *Rk4) SetState(state []complex128) error {
 	rk4.system.stateVector = state
 	return nil
 }
 
 // Set sets the step size and System for the Rk4 stepper.
-func (rk4 *Rk4) Set(stepSize complex64, system System) error {
+func (rk4 *Rk4) Set(stepSize complex128, system System) error {
 	//if stepSize <= 0 {
 	if real(stepSize) <= 0 && imag(stepSize) <= 0.0 {
 		return &Error{"Can't use negative or null step size for Rk4 stepper."}
@@ -57,28 +57,28 @@ func (rk4 *Rk4) Set(stepSize complex64, system System) error {
 // Getter methods
 
 // StepSize returns the step size of the method
-func (rk4 *Rk4) StepSize() complex64 {
+func (rk4 *Rk4) StepSize() complex128 {
 	return rk4.stepSize
 }
 
 // State returns the state of the Rk4 stepper.
-func (rk4 *Rk4) State() []complex64 {
+func (rk4 *Rk4) State() []complex128 {
 	return rk4.system.stateVector
 }
 
 // Step performs one step iteration call of the Rk4 stepper.
 // It also updates the state of the Rk4 object.
-func (rk4 *Rk4) Step() ([]complex64, error) {
+func (rk4 *Rk4) Step() ([]complex128, error) {
 
 	newstate := rk4.system.stateVector
-	stateK1 := make([]complex64, len(rk4.system.stateVector))
-	stateK2 := make([]complex64, len(rk4.system.stateVector))
-	stateK3 := make([]complex64, len(rk4.system.stateVector))
-	stateK4 := make([]complex64, len(rk4.system.stateVector))
+	stateK1 := make([]complex128, len(rk4.system.stateVector))
+	stateK2 := make([]complex128, len(rk4.system.stateVector))
+	stateK3 := make([]complex128, len(rk4.system.stateVector))
+	stateK4 := make([]complex128, len(rk4.system.stateVector))
 
-	BufferK1 := make([]complex64, len(rk4.system.stateVector))
-	BufferK2 := make([]complex64, len(rk4.system.stateVector))
-	BufferK3 := make([]complex64, len(rk4.system.stateVector))
+	BufferK1 := make([]complex128, len(rk4.system.stateVector))
+	BufferK2 := make([]complex128, len(rk4.system.stateVector))
+	BufferK3 := make([]complex128, len(rk4.system.stateVector))
 
 	// First Step
 	stateK1 = rk4.system.Evaluate(newstate)
