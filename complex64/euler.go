@@ -18,7 +18,7 @@ func NewEuler(stepSize complex64, system System) (r *Euler) {
 	if real(stepSize) <= 0 && imag(stepSize) <= 0.0 {
 		panic("NewEuler called with negative or null stepSize.")
 	}
-	if system.Function == nil {
+	if system.Function() == nil {
 		panic("NewEuler called with nil system.Function.")
 	}
 	r = &Euler{stepSize: stepSize, system: system}

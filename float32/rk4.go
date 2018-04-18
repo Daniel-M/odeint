@@ -18,7 +18,7 @@ func NewRk4(stepSize float32, system System) (r *Rk4) {
 	if stepSize <= 0 {
 		panic("NewRk4 called with negative or null stepSize.")
 	}
-	if system.Function == nil {
+	if system.Function() == nil {
 		panic("NewRk4 called with nil system.Function.")
 	}
 	r = &Rk4{stepSize: stepSize, system: system}
