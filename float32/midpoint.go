@@ -18,7 +18,7 @@ func NewMidpoint(stepSize float32, system System) (r *Midpoint) {
 	if stepSize <= 0 {
 		panic("NewMidpoint called with negative or null stepSize.")
 	}
-	if system.Function == nil {
+	if system.Function() == nil {
 		panic("NewMidpoint called with nil system.Function.")
 	}
 	r = &Midpoint{stepSize: stepSize, system: system}

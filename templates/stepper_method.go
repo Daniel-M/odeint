@@ -9,7 +9,7 @@ package odeint
 // STEPPER_METHOD implements the stepper_method stepper method. stepper_method is part of the Stepper
 // interface.
 type STEPPER_METHOD struct {
-	stepSize Float
+	stepSize Float //Float is used as the template name for the numeric type
 	system   System
 }
 
@@ -18,7 +18,7 @@ func NewSTEPPER_METHOD(stepSize Float, system System) (r *STEPPER_METHOD) {
 	if stepSize <= 0 {
 		panic("NewSTEPPER_METHOD called with negative or null stepSize.")
 	}
-	if system.Function == nil {
+	if system.Function() == nil {
 		panic("NewSTEPPER_METHOD called with nil system.Function.")
 	}
 	r = &STEPPER_METHOD{stepSize: stepSize, system: system}
@@ -70,13 +70,13 @@ func (stepper_method *STEPPER_METHOD) Step() ([]Float, error) {
 
 	newstate := stepper_method.system.stateVector
 	stateK1 := make([]Float, len(stepper_method.system.stateVector))
-	
+
 	BufferK1 := make([]Float, len(stepper_method.system.stateVector))
 
 	// Here you perform one step iteration of stepper_method
 	// Result
 	for i := 0; i < len(stepper_method.system.stateVector); i++ {
-        // Fill new state. Runge Kutta for reference
+		// Fill new state. Runge Kutta for reference
 		newstate[i] = newstate[i] + (stepper_method.stepSize/6.0)*(stateK1[i]+2*stateK2[i]+2*stateK3[i]+stateK4[i])
 	}
 
