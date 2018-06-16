@@ -7,7 +7,151 @@
   for initial value problems to be solved by explicit methods.
   The package features methods for the standard library types,
 
+
   Here you will find several useful examples to get started with this package.
+
+  Examples
+
+  There are several examples implemented at https://github.com/Daniel-M/odeint/tree/master/examples
+
+  Example - Simple harmonic oscillator with float32
+
+  The integrator can be used to integrate the ODE for the harmonic oscillator.
+
+    x'' + p*x' + k*x = 0
+
+
+  which can be decomposed as the system,
+
+    x' = u
+    u' = -p*u - k*x
+
+  If we want to solve the system using float32, we must import the adequate
+  subpackage,
+
+    import "github.com/Daniel-M/odeint/float32"
+
+  So we begin by defining the system of coupled differential equations
+
+    func odesys(x []float32, parameters []float32) []float32 {
+
+      dxdt := make([]float32, len(x))
+
+      dxdt[0] = x[1]
+      dxdt[1] = -parameters[0]*x[0] - parameters[1]*x[1]
+
+      return dxdt
+    }
+
+  declare the state and parameters variables,
+    state := make([]float32, 2)
+    params := make([]float32, 2)
+
+  Putting the inital conditions
+    state[0] = 0.2
+    state[1] = 0.8
+
+  And the parameters
+    params[0] = 1.2 * 1.2
+    params[1] = 0.2
+
+  We create an instance of the system,
+    system := odeint.NewSystem(state, params, odesys)
+
+  And an instance of the integrator with Midpoint method,
+    var integrator odeint.Midpoint
+
+  Set the system to the integrator before integrating the system
+
+    err := integrator.Set(0.1, *system)
+    if err != nil {
+      panic(err)
+    }
+
+  And finally we integrate within a loop
+
+    for i := 0; i < int(30.0/integrator.StepSize()); i++ {
+      fmt.Println(float32(i)*integrator.StepSize(), state)
+
+      state, err = integrator.Step()
+      if err != nil {
+        panic(err)
+      }
+    }
+
+  The code above will print the data columns to the standard output.
+  To write to a file you could create a file with
+    os.Create
+  and write to it with
+    fmt.Fprintf(w,...)
+  where w implements the interface
+    io.Writter
+
+
+  Example with complex64
+
+  If we want to solve the system using complex64, we must import the adequate
+  subpackage,
+
+    import "github.com/Daniel-M/odeint/complex64"
+
+  So we begin by defining the system of coupled differential equations,
+  for instance,
+
+    func odesys(x []complex64, parameters []complex64) []complex64 {
+
+      dxdt := make([]complex64, len(x))
+
+    dxdt[0] = -1i * x[0] * x[0] * x[1]
+    dxdt[1] = 1i * x[1]
+
+      return dxdt
+    }
+
+  declare the state and parameters variables,
+    state := make([]complex64, 2)
+    params := make([]complex64, 2)
+
+  Putting the inital conditions
+    state[0] = 1 / 2.1
+    state[1] = 0.8
+
+  And the parameters
+    params[0] = 2.0
+    params[1] = 0.0
+
+  We create an instance of the system,
+    system := odeint.NewSystem(state, params, odesys)
+
+  And an instance of the integrator with Midpoint method,
+    var integrator odeint.Midpoint
+
+  Set the system to the integrator before integrating the system
+
+    err := integrator.Set(2*math.Pi/500, *system)
+    if err != nil {
+      panic(err)
+    }
+
+  And finally we integrate within a loop
+
+    for i := 0; i <= int(2*math.Pi/real(integrator.StepSize()))+1; i++ {
+      fmt.Println(float64(i)*real(integrator.StepSize()), state)
+
+      state, err = integrator.Step()
+      if err != nil {
+        panic(err)
+      }
+    }
+
+  The code above will print the data columns to the standard output.
+  To write to a file you could create a file with
+    os.Create
+  and write to it with
+    fmt.Fprintf(w,...)
+  where w implements the interface
+    io.Writter
+  There are more examples at the examples path
 
 
   License

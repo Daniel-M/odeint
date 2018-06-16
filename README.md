@@ -11,6 +11,14 @@ The methods implemented so far are,
 
 The package is easily extensible to provide other methods.   
 
+## The docs,
+
+The API is pretty consistent, and you'll get it easily,
+
++ [Getting started](https://godoc.org/github.com/Daniel-M/odeint)   
+
+Type specific docs,
+
 + [GoDoc documentation for float32](https://godoc.org/github.com/Daniel-M/odeint/float32)   
 + [GoDoc documentation for float64](https://godoc.org/github.com/Daniel-M/odeint/float64)   
 + [GoDoc documentation for complex64](https://godoc.org/github.com/Daniel-M/odeint/complex64)   
@@ -27,6 +35,16 @@ and you are ready to use methods. The stepper used (euler, mid point or Runge-Ku
 
 To get a feeling of the usage check the files under `examples/brusselator`. You will see that to change the method used 
 you just need to change the integrator used (line 38 of `examples/brusselator/rk4` source code).   
+
+## FAQ
+
+### A subpackage for each numeric type?
+
+You might be thiking, why does this guy have a subpackage for each numeric type?
+Well, though it makes the package harder to maintain, having type specific
+integrators is a priority for me. I could have used interface-based integrators
+but it would be at the expense of the extensibility of the integrators to more
+custom numerical types, a feature which I find relevant too.
 
 ## TEST
 
