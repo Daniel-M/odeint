@@ -115,7 +115,7 @@
 
   A subpackage for each numeric type?
 
-  You might be thiking, why does this guy have a subpackage for each numeric type?
+  You might be thinking, why does this guy have a subpackage for each numeric type?
   Well, though it makes the package harder to maintain, having type specific
   integrators is a priority for me. I could have used interface-based integrators
   but it would be at the expense of the extensibility of the integrators to more
