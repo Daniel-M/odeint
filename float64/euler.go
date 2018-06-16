@@ -1,4 +1,4 @@
-// Copyright 2017 Daniel Mejía Raigosa. All rights reserved.
+// Copyright 2017-2018 Daniel Mejía Raigosa. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
@@ -66,6 +66,13 @@ func (euler *Euler) State() []float64 {
 
 // Step performs one step iteration call of the Euler stepper.
 // It also updates the state of the Euler object.
+//
+// The Euler method for the system,
+// 		y = f(t, y)
+// Consists of building the sequence of numbers t_n, y_n,
+// following the recurrence,
+// 		t_n+1 = t_n + dt
+// 		y_n+1 = y_n + dt*f(t_n, y_n) // First step
 func (euler *Euler) Step() ([]float64, error) {
 
 	newstate := make([]float64, len(euler.system.stateVector))

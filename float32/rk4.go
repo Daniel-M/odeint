@@ -1,4 +1,4 @@
-// Copyright 2017 Daniel Mejía Raigosa. All rights reserved.
+// Copyright 2017-2018 Daniel Mejía Raigosa. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
@@ -66,6 +66,17 @@ func (rk4 *Rk4) State() []float32 {
 
 // Step performs one step iteration call of the Rk4 stepper.
 // It also updates the state of the Rk4 object.
+//
+// The Runge-Kutta4 method for the system,
+// 		y = f(t,y)
+// Consists of building the sequence of numbers t_n, y_n,
+// following the recurrence,
+//    t_n+1 = t_n + dt
+//    k1 = dt*f(t_n, y_n)
+//    k2 = dt*f(t_n + 0.5*dt, y_n + 0.5*k1)
+//    k3 = dt*f(t_n + 0.5*dt, y_n + 0.5*k2)
+//    k4 = dt*f(t_n + dt, y_n + k3)
+//    y_n+1 = y_n + (1/6)*(k1 + 2*k2 + 2*k3 + k4) // First step
 func (rk4 *Rk4) Step() ([]float32, error) {
 
 	newstate := rk4.system.stateVector

@@ -1,4 +1,4 @@
-// Copyright 2017 Daniel Mejía Raigosa. All rights reserved.
+// Copyright 2017-2018 Daniel Mejía Raigosa. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
@@ -65,8 +65,16 @@ func (euler *Euler) State() []complex64 {
 	return euler.system.stateVector
 }
 
-// Step performs one step iteration call of the Euler stepper.
-// It also updates the state of the Euler object.
+// Step performs one step iteration call of the Midpoint stepper.
+// It also updates the state of the Midpoint object.
+//
+// The mid-point method for the system,
+// 		y = f(t, y)
+// Consists of building the sequence of numbers t_n, y_n,
+// following the recurrence,
+// 		t_n+1 = t_n + dt
+// 		ya_n = y_n + 0.5*dt*f(t_n, y_n) // First step
+//		y_n+1 = y_n + dt*f(t_n, ya_n)   // Second step
 func (euler *Euler) Step() ([]complex64, error) {
 
 	newstate := make([]complex64, len(euler.system.stateVector))

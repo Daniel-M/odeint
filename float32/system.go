@@ -1,4 +1,4 @@
-// Copyright 2017 Daniel Mejía Raigosa. All rights reserved.
+// Copyright 2017-2018 Daniel Mejía Raigosa. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
@@ -7,11 +7,11 @@ package odeint
 // System wraps the function that represents the right-hand side of the
 // ordinary differential equations system, its parameters t, and state x
 // Consider the system,
-//     x'(t) = f(x,t)  (1)
-// System wraps around f(x,t) storing also t and x.
+//     x'(t) = f(t,x)  (1)
+// System wraps around f(t,x) storing also t and x.
 // stateVector is the present state of the system, i.e. the values stored
 // at the components of x.
-// parametersVector are the parameters of to the system (i.e. the t in f(x,t))
+// parametersVector are the parameters of to the system (i.e. the t in f(t,x))
 // function describes the func(state []float32, parameters []float32) []float32
 // that represents the right hand side of system (1)
 type System struct {
@@ -30,8 +30,8 @@ func NewSystem(state []float32, parameters []float32, system func(state []float3
 	return
 }
 
-// Evaluate returns the result of evaluating f(x,t) with x = state.
-// if the size of state is zero, it returns f(x,t) using the internal state x
+// Evaluate returns the result of evaluating f(t,x) with x = state.
+// if the size of state is zero, it returns f(t,x) using the internal state x
 func (s *System) Evaluate(state []float32) []float32 {
 	if len(state) > 0 {
 		return s.function(state, s.parametersVector)
